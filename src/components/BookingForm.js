@@ -1,72 +1,119 @@
 import React, { useState } from "react";
-import "../styles/BookingForm.css";
 
-
-function BookingForm() {
+function BookingForm({ availableTimes, onDateChange }) {
   const [formData, setFormData] = useState({
     name: "",
     date: "",
     time: "",
     guests: "",
-    occasion: ""
   });
 
-  const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [submitted, setSubmitted] = useState(false);
 
   const validate = () => {
     const newErrors = {};
-    if (!formData.name) newErrors.name = "Name is required";
-    if (!formData.date) newErrors.date = "Date is required";
-    if (!formData.time) newErrors.time = "Time is required";
-    if (!formData.guests || formData.guests <= 0) newErrors.guests = "Guests must be more than 0";
-    if (!formData.occasion) newErrors.occasion = "Occasion is required";
-    return newErrors;
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required.";
+    }
+
+    if (!formData.date) {
+      newErrors.date = "Date is required.";
+    }
+
+    if (!formData.time) {
+      newErrors.time = "Time is required.";
+    }
+
+    if (!formData.guests || parseInt(formData.guests) <= 0) {
+      newErrors.guests = "Guests must be at least 1.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    if (name === "date") {
+      onDateChange(value); // لتحديث الأوقات المتاحة
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const validationErrors = validate();
-    setErrors(validationErrors);
-    if (Object.keys(validationErrors).length === 0) {
+    if (validate()) {
       setSubmitted(true);
+      console.log("Form submitted:", formData);
+      // تقدر ترسل البيانات هنا إذا كنت تربط API
+    } else {
+      setSubmitted(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} aria-label="Booking Form">
-      <h2>Book a Table</h2>
-      <label htmlFor="name">Name:</label>
-      <input id="name" name="name" type="text" value={formData.name} onChange={handleChange} aria-required="true"/>
-      {errors.name && <span role="alert">{errors.name}</span>}
+    <form onSubmit={handleSubmit} data-testid="booking-form">
+      <label>
+        Name:
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          data-testid="name-input"
+        />
+        {errors.name && <span style={{ color: "red" }}>{errors.name}</span>}
+      </label>
 
-      <label htmlFor="date">Date:</label>
-      <input id="date" name="date" type="date" value={formData.date} onChange={handleChange} />
-      {errors.date && <span role="alert">{errors.date}</span>}
+      <label>
+        Date:
+        <input
+          type="date"
+          name="date"
+          value={formData.date}
+          onChange={handleChange}
+          data-testid="date-input"
+        />
+        {errors.date && <span style={{ color: "red" }}>{errors.date}</span>}
+      </label>
 
-      <label htmlFor="time">Time:</label>
-      <input id="time" name="time" type="time" value={formData.time} onChange={handleChange} />
-      {errors.time && <span role="alert">{errors.time}</span>}
+      <label>
+        Time:
+        <select
+          name="time"
+          value={formData.time}
+          onChange={handleChange}
+          data-testid="time-select"
+        >
+          <option value="">Select a time</option>
+          {availableTimes.map((time, index) => (
+            <option key={index} value={time}>
+              {time}
+            </option>
+          ))}
+        </select>
+        {errors.time && <span style={{ color: "red" }}>{errors.time}</span>}
+      </label>
 
-      <label htmlFor="guests">Number of Guests:</label>
-      <input id="guests" name="guests" type="number" min="1" value={formData.guests} onChange={handleChange} />
-      {errors.guests && <span role="alert">{errors.guests}</span>}
+      <label>
+        Guests:
+        <input
+          type="number"
+          name="guests"
+          value={formData.guests}
+          onChange={handleChange}
+          min="1"
+          data-testid="guests-input"
+        />
+        {errors.guests && <span style={{ color: "red" }}>{errors.guests}</span>}
+      </label>
 
-      <label htmlFor="occasion">Occasion:</label>
-      <select id="occasion" name="occasion" value={formData.occasion} onChange={handleChange}>
-        <option value="">Select</option>
-        <option value="Birthday">Birthday</option>
-        <option value="Anniversary">Anniversary</option>
-      </select>
-      {errors.occasion && <span role="alert">{errors.occasion}</span>}
+      <button type="submit" data-testid="submit-button">Book Now</button>
 
-      <button type="submit">Book</button>
-
-      {submitted && <p role="status">Thank you! Your booking has been received.</p>}
+      {submitted && <p style={{ color: "green" }}>Booking submitted successfully!</p>}
     </form>
   );
 }
