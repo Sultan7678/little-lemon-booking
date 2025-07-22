@@ -1,23 +1,13 @@
-<!DOCTYPE html> 
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <meta name="description" content="Little Lemon - Restaurant Reservation" />
-    <meta name="keywords" content="Little Lemon, Restaurant, Booking, Food, Reservation" />
-    <meta name="author" content="Little Lemon Team" />
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import { BrowserRouter } from "react-router-dom";  // مهم جداُ
+import './index.css';
 
-    <meta property="og:title" content="Little Lemon Reservation" />
-    <meta property="og:description" content="Book your table now at Little Lemon!" />
-    <meta property="og:image" content="https://example.com/image.png" />
-    <meta property="og:url" content="https://littlelemon.com" />
-    <meta property="og:type" content="website" />
+const root = ReactDOM.createRoot(document.getElementById("root"));
 
-    <title>Little Lemon</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-  </body>
-</html>
+root.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+);

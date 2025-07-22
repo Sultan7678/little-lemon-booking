@@ -1,14 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-    <nav style={{ padding: "1rem", backgroundColor: "#f4f4f4" }}>
-      <h2>Little Lemon</h2>
-      <ul style={{ listStyle: "none", display: "flex", gap: "1rem" }}>
-        <li><a href="#hero">Home</a></li>
-        <li><a href="#specials">Specials</a></li>
-        <li><a href="#testimonials">Testimonials</a></li>
-        <li><a href="#booking">Book</a></li>
+    <nav>
+      <ul>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/booking">Book a Table</Link></li>
       </ul>
     </nav>
   );

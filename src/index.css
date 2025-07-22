@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* تقدر تضيف تعديلات مخصصة تحت هنا */
+body {
+  font-family: 'Arial', sans-serif;
+}

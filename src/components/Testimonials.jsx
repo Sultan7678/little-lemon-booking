@@ -1,38 +1,33 @@
-import React from "react";
-
-function Testimonials() {
+export default function Testimonials() {
   const testimonials = [
     {
-      name: "Sarah A.",
-      quote: "The food was absolutely amazing! Highly recommend the lemon dessert.",
-      image: "/images/user1.jpg",
+      name: "Sara",
+      message: "Amazing service and delicious food!",
     },
     {
-      name: "Ali M.",
-      quote: "Fast service and delicious specials. Will definitely come back!",
-      image: "/images/user2.jpg",
-    },
-    {
-      name: "Lina K.",
-      quote: "Best Mediterranean food I've had in a long time!",
-      image: "/images/user3.jpg",
+      name: "Ahmed",
+      message: "A hidden gem in the city. Highly recommend!",
     },
   ];
 
   return (
-    <section className="testimonials">
-      <h2>Customer Testimonials</h2>
-      <div className="testimonials-grid">
-        {testimonials.map((item, index) => (
-          <div className="testimonial-card" key={index}>
-            <img src={item.image} alt={item.name} />
-            <blockquote>"{item.quote}"</blockquote>
-            <p>- {item.name}</p>
-          </div>
-        ))}
+    <section className="bg-blue-50 py-16 px-4">
+      <div className="max-w-6xl mx-auto text-center">
+        <h2 className="text-4xl font-bold text-gray-800 mb-12">
+          What Our Customers Say
+        </h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          {testimonials.map((t, index) => (
+            <div
+              key={index}
+              className="bg-white p-8 rounded-xl shadow-lg border border-blue-100 hover:shadow-xl transition"
+            >
+              <p className="text-gray-700 italic text-lg mb-4">"{t.message}"</p>
+              <p className="text-blue-600 font-bold text-xl">- {t.name}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
 }
-
-export default Testimonials;
